@@ -37,12 +37,51 @@ const MORSE_TABLE = {
   "-----": "0",
 };
 
-function decode(expr) {
-  // write your solution here
-}
+// function decode(expr) {
+//   // write your solution here
+// }
 
-module.exports = {
-  decode,
+// module.exports = {
+//   decode,
+// };
+
+const decode = (expr) => {
+  let letters = [],
+    str = "";
+
+  const arr = expr.match(/.{1,10}/g);
+  for (let i of arr) {
+    let num = [];
+    if (i === "**********") {
+      num.push("*");
+    }
+    let letter = i.match(/.{1,2}/g);
+    for (let j = 0; j < letter.length; j++) {
+      if (letter[j] === "10") {
+        num.push(".");
+      } else if (letter[j] === "11") {
+        num.push("-");
+      }
+    }
+    letters.push(num.join(""));
+    num = [];
+  }
+  for (let y = 0; y < letters.length; y++) {
+    if (letters[y] === "*") {
+      str += " ";
+    }
+    for (let i in MORSE_TABLE) {
+      if (letters[y] === i) {
+        str += MORSE_TABLE[i];
+      }
+    }
+  }
+
+  return str;
 };
 
-const decode = (str) => {};
+console.log(
+  decode(
+    "000000001100101010100000000010**********00111110110000101011000000101000111011100000111011**********00111010100000101110000011111100001011110000001110**********001010111000001111110011101011**********00101111110000101011000000111100101111100000101010**********0000111111001010101100000000100000101110**********000000001100101010100000000010**********0010111010000000101100111110100011101111**********000011101000001111110000111110"
+  )
+);
